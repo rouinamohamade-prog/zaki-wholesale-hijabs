@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>زاكي لبيع الخمارات بالجملة</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        goldDark: '#543d0c',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-animation text-gray-800 font-sans min-h-screen flex flex-col antialiased">
+
+    <header class="gold-gradient border-b border-yellow-600/30 sticky top-0 z-40 shadow-md smooth-transition">
+        <div class="container mx-auto px-4 sm:px-6 py-4 flex flex-col sm:flex-row gap-4 justify-between items-center">
+            <div class="flex items-center gap-3">
+                <img src="Logo.jpg" alt="لوغو المحل" class="w-12 h-12 rounded-full object-cover border border-goldDark/30 bg-white shadow-sm rotating-logo cursor-pointer">
+                <h1 class="text-xl sm:text-2xl font-black text-goldDark drop-shadow-sm">
+                    زاكي لبيع الخمارات بالجملة
+                </h1>
+            </div>
+            <a href="https://www.facebook.com/zaky.llkhmarat.baljmlt" target="_blank" class="w-full sm:w-auto bg-blue-700 hover:bg-blue-800 text-white px-5 py-2 rounded-xl text-sm font-bold flex items-center justify-center gap-2 smooth-transition shadow-md">
+                <i class="fa-brands fa-facebook text-lg"></i>
+                صفحتنا على الفيس بوك
+            </a>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 py-8 flex-grow max-w-5xl">
+        
+        <div class="w-full mb-8 rounded-2xl overflow-hidden shadow-lg border border-gray-200">
+            <img src="card identifier.jpg" alt="الصورة التعريفية لمحل زاكي" class="w-full h-auto object-cover max-h-[450px]">
+        </div>
+
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 text-center mb-10">
+            <div class="bg-white/90 backdrop-blur p-6 rounded-2xl shadow-sm border border-gray-100 transform hover:-translate-y-1 smooth-transition">
+                <div class="w-14 h-14 bg-emerald-50 rounded-full flex items-center justify-center mx-auto mb-4 text-emerald-600 text-2xl border border-emerald-100 shadow-sm">
+                    <i class="fa-solid fa-hand-holding-dollar"></i>
+                </div>
+                <h3 class="font-bold text-lg text-gray-900 mb-1">الدفع عند الاستلام</h3>
+                <p class="text-gray-500 text-sm">سلّع قشك وخلّص كي يوصلك ليديك</p>
+            </div>
+            
+            <div class="bg-white/90 backdrop-blur p-6 rounded-2xl shadow-sm border border-gray-100 transform hover:-translate-y-1 smooth-transition">
+                <div class="w-14 h-14 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 text-blue-600 text-2xl border border-blue-100 shadow-sm">
+                    <i class="fa-solid fa-gem"></i>
+                </div>
+                <h3 class="font-bold text-lg text-gray-900 mb-1">جودة عالية بأسعار تنافسية</h3>
+                <p class="text-gray-500 text-sm">أفضل أنواع الخمارات في السوق الموجهة للجملة</p>
+            </div>
+            
+            <div class="bg-white/90 backdrop-blur p-6 rounded-2xl shadow-sm border border-gray-100 transform hover:-translate-y-1 smooth-transition">
+                <div class="w-14 h-14 bg-orange-50 rounded-full flex items-center justify-center mx-auto mb-4 text-orange-600 text-2xl border border-orange-100 shadow-sm">
+                    <i class="fa-solid fa-circle-check"></i>
+                </div>
+                <h3 class="font-bold text-lg text-gray-900 mb-1">تأكيد معلومات الطلب</h3>
+                <p class="text-gray-500 text-sm">تأكد من ملء طلبك بشكل صحيح لتسهيل التواصل معنا</p>
+            </div>
+        </section>
+
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-6 flex items-center gap-3">
+            <span class="w-2 h-8 bg-amber-500 rounded-full"></span>
+            السلع المتوفرة للطلب (جملة)
+        </h2>
+        
+        <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div class="col-span-full text-center py-8 text-gray-500">
+                <i class="fa-solid fa-spinner animate-spin text-2xl text-amber-500 mb-2"></i>
+                <div>جاري تحميل معرض الخمارات...</div>
+            </div>
+        </div>
+    </main>
+
+    <div id="orderModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[95vh] sm:max-h-[90vh] overflow-y-auto shadow-2xl relative smooth-transition transform scale-95 opacity-0" id="modalContent">
+            
+            <button onclick="closeOrderModal()" class="absolute top-4 left-4 text-gray-400 hover:text-gray-600 text-2xl z-10 p-1">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="p-5 sm:p-8">
+                <h3 id="modalProductName" class="text-xl sm:text-2xl font-bold text-gray-900 mb-2 pl-6"></h3>
+                <p id="modalProductDesc" class="text-gray-600 text-sm mb-5"></p>
+
+                <hr class="border-gray-200 mb-5">
+
+                <form id="orderForm" onsubmit="handleSubmit(event)" class="space-y-4 sm:space-y-5">
+                    <h4 class="text-base sm:text-l font-bold text-gray-900 flex items-center gap-2 mb-1">
+                        <i class="fa-solid fa-clipboard-list text-amber-500"></i> معلومات الطلبية بالجملة
+                    </h4>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">الألوان المتوفرة في السيرية</label>
+                            <div id="modalColors" class="flex flex-wrap gap-1.5"></div>
+                        </div>
+                        <div>
+                            <label class="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">القياس</label>
+                            <select id="prodSize" class="w-full border border-gray-300 rounded-xl px-3 py-2.5 bg-gray-50 font-medium focus:ring-2 focus:ring-amber-500 outline-none text-sm" required>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-50 p-4 rounded-xl border border-gray-200 flex items-center justify-between gap-3">
+                        <label class="block text-sm font-bold text-gray-800">الكمية المطلوبة (بالسيرية):</label>
+                        <input type="number" id="prodQuantity" min="1" value="1" class="w-32 border border-gray-300 rounded-xl px-3 py-2 text-center text-lg font-bold focus:ring-2 focus:ring-amber-500 outline-none" required>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">الاسم</label>
+                            <input type="text" id="custFirstName" class="w-full border border-gray-300 rounded-xl px-3 py-2 focus:ring-2 focus:ring-amber-500 outline-none text-sm" required>
+                        </div>
+                        <div>
+                            <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">الالقب</label>
+                            <input type="text" id="custLastName" class="w-full border border-gray-300 rounded-xl px-3 py-2 focus:ring-2 focus:ring-amber-500 outline-none text-sm" required>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div class="sm:col-span-2">
+                            <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">رقم الهاتف</label>
+                            <input type="tel" id="custPhone" placeholder="07XXXXXXXX" class="w-full border border-gray-300 rounded-xl px-3 py-2 text-right focus:ring-2 focus:ring-amber-500 outline-none text-sm" required>
+                        </div>
+                        <div>
+                            <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">طريقة التوصيل</label>
+                            <input type="text" value="إلى مكتب شركة التوصيل" disabled class="w-full border border-gray-200 rounded-xl px-3 py-2 bg-gray-100 font-semibold text-center text-gray-600 text-xs sm:text-sm">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">الولاية</label>
+                            <select id="custWilaya" onchange="updateCommunes()" class="w-full border border-gray-300 rounded-xl px-3 py-2.5 bg-gray-50 font-medium focus:ring-2 focus:ring-amber-500 outline-none text-sm" required>
+                                <option value="">اختر الولاية...</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">الالبلدية</label>
+                            <select id="custBaladiya" disabled class="w-full border border-gray-300 rounded-xl px-3 py-2.5 bg-gray-50 font-medium focus:ring-2 focus:ring-amber-500 outline-none text-sm" required>
+                                <option value="">اختر البلدية...</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="pt-3">
+                        <button type="submit" id="submitOrderBtn" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3.5 px-4 rounded-xl flex items-center justify-center gap-2 shadow-md smooth-transition text-base sm:text-lg">
+                            <i class="fa-solid fa-circle-check"></i> تأكيد الطلب وإرساله عبر الواتساب
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer class="gold-gradient text-goldDark pt-10 pb-6 border-t border-yellow-600/30 shadow-xl mt-auto text-center">
+        <div class="container mx-auto px-4 sm:px-6 flex flex-col items-center justify-center gap-6 mb-8 max-w-2xl">
+            <div class="w-full flex flex-col items-center">
+                <h3 class="text-xl font-black mb-3">زاكي لبيع الخمارات بالجملة</h3>
+                <p class="text-goldDark/90 text-sm font-medium leading-relaxed max-w-md">
+                    المورد الموثوق لخمارات الجملة في الجزائر. نضمن لكم الجودة العالية، سرعة المعاملة والتوصيل المباشر للمكاتب بأسعار تنافسية.
+                </p>
+            </div>
+            
+            <div class="w-full flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 text-sm font-bold border-t border-goldDark/10 pt-4">
+                <p class="flex items-center gap-2">
+                    <i class="fa-solid fa-location-dot text-red-600 text-base"></i> 
+                    <span><strong>المكان:</strong> أم البواقي - عين فكرون</span>
+                </p>
+                <p class="flex items-center gap-2">
+                    <i class="fa-solid fa-phone text-green-600 text-base"></i> 
+                    <span><strong>رقم الهاتف:</strong> 0792273572</span>
+                </p>
+            </div>
+        </div>
+        
+        <div class="container mx-auto px-4 sm:px-6 border-t border-goldDark/20 pt-6 text-center text-xs font-bold text-goldDark/80">
+            &copy; 2026 جميع الحقوق محفوظة - زاكي لبيع الخمارات بالجملة
+        </div>
+    </footer>
+
+    <script>
+        // مفاتيح الاتصال بـ Supabase 
+        const SUPABASE_URL = "https://tiqsagpbbwmvyktpcnlv.supabase.co"; 
+        const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRpcXNhZ3BiYndtdnlrdHBjbmx2Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3OTg4MjMwNSwiZXhwIjoyMDk1NDU4MzA1fQ.WFF94IhIwnjyiadbRFrf_-Tl97fRkIiEoLF_-o1BSZo";
+        
+        const storePhone = "0792273572";
+        let supabaseClient = null;
+
+        function getSupabase() {
+            if (!supabaseClient && window.supabase) {
+                supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+            }
+            return supabaseClient;
+        }
+
+        // قائمة الـ 58 ولاية كاملة في شكل مصفوفة (Array) لتتوافق مع دوال الكود .forEach و .find
+        const algeriaProvinces = [
+            { code: "01", name: "01 - أدرار", communes: ["أدرار", "تامست", "شروين", "رقان", "إن زغمير", "تيت", "أولف", "تيمقطن", "بودا", "فنوغيل", "تمنطيط", "أولاد أحمد تيمي"] },
+            { code: "02", name: "02 - الشلف", communes: ["الشلف", "تنس", "بوقادير", "أولاد فارس", "الشطية", "سيدي عكاشة", "تاوقريت", "بني حواء", "سنجاس", "المرسى", "سيدي عبد الرحمن", "مصدق", "أولاد بن عبد القادر", "عين مران", "بنايرية", "الأبيض مجاجة", "وادي الفضة", "أولاد عباس"] },
+            { code: "03", name: "03 - الأغواط", communes: ["الأغواط", "أفلو", "عين ماضي", "كوردان", "سيدي مخلوف", "الحوايط", "الخنق", "بن ناصر بن شهرة", "حاسي الدلاعة", "حاسي الرمل", "عين سيدي علي", "قلتة سيدي سعد", "البيضاء"] },
+            { code: "04", name: "04 - أم البواقي", communes: ["أم البواقي", "عين فكرون", "عين مليلة", "عين البيضاء", "عين كرشة", "مسكيانة", "سوق نعمان", "قصر الصبيحي", "الضلعة", "فكرينة", "عامرية", "وادي نيني"] },
+            { code: "05", name: "05 - باتنة", communes: ["باتنة", "أريس", "بريكة", "مروانة", "عين التوتة", "تيمقاد", "رأس العيون", "نقاوس", "المعذر", "تازولت", "ثنية العابد", "وادي الماء", "شير", "منعة"] },
+            { code: "06", name: "06 - بجاية", communes: ["بجاية", "أقبو", "أوقاس", "خراطة", "أميزور", "تيمزريت", "صدوق", "تشميني", "القصر", "تيشي", "سوق الاثنين", "درقينة", "توجة", "وادي غير"] },
+            { code: "07", name: "07 - بسكرة", communes: ["بسكرة", "طولقة", "سيدي عقبة", "زريبة الوادي", "مشونش", "لوطاية", "جمورة", "الفيض", "الحوش", "شعين"] },
+            { code: "08", name: "08 - بشار", communes: ["بشار", "القنادسة", "تاغيت", "العبادلة", "لحمر", "موغل", "مريجة", "بني ونيف", "تبلبالة", "عرق فراج"] },
+            { code: "09", name: "09 - البليدة", communes: ["البليدة", "بوفاريك", "العفرون", "أولاد يعيش", "الصومعة", "موزاية", "بوقرة", "الأربعاء", "شبانية", "حمام ملوان", "بني مراد", "قرواو"] },
+            { code: "10", name: "10 - البويرة", communes: ["البويرة", "الأخضرية", "سور الغزلان", "عين بسام", "مشدالة", "قاديرية", "بشلول", "حيزر", "برج أوخريص", "هاشمية"] },
+            { code: "11", name: "11 - تمنراست", communes: ["تمنراست", "أبالسة", "إن غار", "فقارة الزوى"] },
+            { code: "12", name: "12 - تبسة", communes: ["تبسة", "بئر العاتر", "الشريعة", "الونزة", "العوينات", "مرسط", "الماء الأبيض", "العقلة", "الكويف", "بكارية", "نقرين"] },
+            { code: "13", name: "13 - تلمسان", communes: ["تلمسان", "مغنية", "منصورة", "شتوان", "الغزوات", "أولاد ميمون", "الحناية", "سبدو", "ندروما", "رمشي", "بني سنوس", "مرسى بن مهيدي"] },
+            { code: "14", name: "14 - تيارت", communes: ["تيارت", "السوقر", "فرندة", "قصر الشلالة", "مهدية", "الدحموني", "عين الذهب", "مدروسة", "تيداس", "تيدة", "الرحوية"] },
+            { code: "15", name: "15 - تيزي وزو", communes: ["تيزي وزو", "عزازقة", "ذراع الميزان", "واضية", "الأربعاء ناث إيراثن", "عين الحمام", "أزفون", "تقزيرت", "بوغني", "ميقيلة", "واسيف"] },
+            { code: "16", name: "16 - الجزائر", communes: ["سيدي امحمد", "الجزائر الوسطى", "المرادية", "المدنية", "باب الوادي", "بولغين", "وادي قريش", "الرايس حميدو", "الحراش", "بوروبة", "وادي السمار", "المحمدية", "بئر مراد رايس", "بئر خادم", "حيدرة", "السحاولة", "حسين داي", "المقرية", "القبة", "محمد بلوزداد", "بن عكنون", "الأبيار", "المرسى", "برج البحري", "برج الكيفان", "باب الزوار", "الدار البيضاء", "عين طاية", "الرويبة", "الرغاية", "هراوة", "بوزريعة", "بني مسوس", "دالي إبراهيم", "الشراقة", "حمادي", "أولاد فايت", "العاشور", "درارية", "الدويرة", "بابا حسن", "خرايسية", "بئر توتة", "تسالة المرجة", "أولاد شبل", "سيدي موسى", "براقي", "الكاليتوس", "زرالدة", "سطاوالي", "عين البنيان", "حمامات", "السويدانية"] },
+            { code: "17", name: "17 - الجلفة", communes: ["جلفة", "حاسي بحبح", "مسعد", "عين وسارة", "الشارف", "دار الشيوخ", "الإدريسية", "حد الصحاري", "فيض البطمة", "البيرين"] },
+            { code: "18", name: "18 - جيجل", communes: ["جيجل", "الطاهير", "الميلية", "العوانة", "زيامة منصورية", "الشقفة", "الأنصار", "قاوس", "السطارة", "جمعة بني حبيبي"] },
+            { code: "19", name: "19 - سطيف", communes: ["سطيف", "العلمة", "عين أرنات", "عين ولمان", "بوقاعة", "عموشة", "صالح باي", "حمام السخنة", "قجال", "بني عزيز", "جميلة", "عين الكبيرة"] },
+            { code: "20", name: "20 - سعيدة", communes: ["سعيدة", "عين الحجر", "يوب", "الحساسنة", "أولاد خالد", "سيدي بوبكر", "سيدي أحمد", "مولاي العربي"] },
+            { code: "21", name: "21 - سكيكدة", communes: ["سكيكدة", "الحروش", "عزابة", "القل", "تمالوس", "رمضان جمال", "حمادي كرومة", "فلفلة", "سيدي مزغيش", "بين الويدان"] },
+            { code: "22", name: "22 - سيدي بلعباس", communes: ["سيدي بلعباس", "تلاغ", "سفيزف", "ابن باديس", "سيدي لحسن", "مصطفى بن براهيم", "تنيرة", "مرحوم", "بلعربي"] },
+            { code: "23", name: "23 - عنابة", communes: ["عنابة", "البوني", "الحجار", "سيدي عمار", "برحال", "شطايبي", "سرايدي", "عين الباردة", "العلمة"] },
+            { code: "24", name: "24 - قالمة", communes: ["قالمة", "وادي الزناتي", "بوشقوف", "هيوب", "حمام دباغ", "لخزارة", "قلعة بوصبع", "تاملوكة", "عين مخلوف"] },
+            { code: "25", name: "25 - قسنطينة", communes: ["قسنطينة", "الخروب", "حامة بوزيان", "ديدوش مراد", "زيغود يوسف", "ابن زياد"] },
+            { code: "26", name: "26 - المدية", communes: ["المدية", "البرواقية", "قصر البخاري", "بني سليمان", "تابلاط", "عوامري", "العزيزية", "شلالة العذاورة", "سيدي نعمان"] },
+            { code: "27", name: "27 - مستغانم", communes: ["مستغانم", "عين تادلس", "سيدي علي", "ماسرة", "بوقيرات", "حاسي ماماش", "عشاوشة", "خير الدين"] },
+            { code: "28", name: "28 - المسيلة", communes: ["المسيلة", "بوسعادة", "سيدي عيسى", "مقرة", "أولاد دراج", "خوبانة", "حمام الضلعة", "balehom", "عين الحجل"] },
+            { code: "29", name: "29 - معسكر", communes: ["معسكر", "سيق", "المحمدية", "تيغنيف", "غريس", "بوحنيفية", "هاشم", "عوف", "زهانة", "وادي الأبطال"] },
+            { code: "30", name: "30 - ورقلة", communes: ["ورقلة", "حاسي مسعود", "الرويسات", "عين البيضاء", "نقرين", "البرمة"] },
+            { code: "31", name: "31 - وهران", communes: ["وهران", "بير الجير", "السانية", "أرزيو", "بطيوة", "قديل", "عين الترك", "وادي تليلات", "حاسي بونيف", "مسيرغين"] },
+            { code: "32", name: "32 - البيض", communes: ["البيض", "بوقطب", "الأبيض سيدي الشيخ", "شلالة", "بريزينة", "الغاسول", "الكاف الأحمر", "الرقاصة"] },
+            { code: "33", name: "33 - إليزي", communes: ["إليزي", "برج عمر إدريس", "برج الحواس"] },
+            { code: "34", name: "34 - برج بوعريريج", communes: ["برج بوعريريج", "رأس الوادي", "برج غدير", "المنصورة", "مجانة", "الحمادية", "خليل", "الياشير"] },
+            { code: "35", name: "35 - بومرداس", communes: ["bomerdes", "بودواو", "برج منايل", "دلس", "الثنية", "خميس الخشنة", "يسر", "الناصرية", "أولاد هداج"] },
+            { code: "36", name: "36 - الطارف", communes: ["الطارف", "القالة", "الذرعان", "بوثلجة", "بن مهيدي", "بوحجار", "الشط", "العصفور"] },
+            { code: "37", name: "37 - تندوف", communes: ["تندوف", "أم العسل"] },
+            { code: "38", name: "38 - تيسمسيلت", communes: ["تيسمسيلت", "ثنية الحد", "برج بونعامة", "خميستي", "لرجام", "عماري"] },
+            { code: "39", name: "39 - الوادي", communes: ["الوادي", "قمار", "الرقيبة", "الرباح", "حاسي خليفة", "البياضة"] },
+            { code: "40", name: "40 - خنشلة", communes: ["خنشلة", "ششار", "قايس", "أولاد رشاش", "المحمل", "بوحمامة", "الحامة", "عين الطويلة"] },
+            { code: "41", name: "41 - سوق أهراس", communes: ["سوق أهراس", "سدراتة", "مداوروش", "تاورة", "المشروحة", "المراهنة", "الحدادة"] },
+            { code: "42", name: "42 - تيبازة", communes: ["تيبازة", "حجوط", "شرشال", "القليعة", "بو إسماعيل", "فوكة", "الداموس", "قوراية", "أحمر العين", "شنوة"] },
+            { code: "43", name: "43 - ميلة", communes: ["ميلة", "شلغوم العيد", "فرادج", "التلاغمة", "تاجنانت", "بوحاتم", "سيدي مروان", "القرارم قوقة"] },
+            { code: "44", name: "44 - عين الدفلى", communes: ["عين الدفلى", "خميس مليانة", "مليانة", "العطاف", "العبادية", "جليدة", "بوراشد", "بومدفع"] },
+            { code: "45", name: "45 - النعامة", communes: ["النعامة", "مشرية", "عين الصفراء", "عسلة", "صفيصيفة", "البيوض"] },
+            { code: "46", name: "46 - عين تموشنت", communes: ["عين تموشنت", "بني صاف", "حمام بوحجر", "العامرية", "المالح", "ولهاصة", "عين الأربعاء"] },
+            { code: "47", name: "47 - غرداية", communes: ["غرداية", "متليلي", "القرارة", "بني يزقن", "العطف", "بونورة"] },
+            { code: "48", name: "48 - غليزان", communes: ["غليزان", "وادي ارهيو", "عمي موسى", "مازونة", "المطمر", "يلل", "منداس", "سيدي امحمد بن علي"] },
+            { code: "49", name: "49 - تيميمون", communes: ["تيميمون", "أوقروت", "شروين", "طلمين", "قصر قدور"] },
+            { code: "50", name: "50 - برج باجي مختار", communes: ["برج باجي مختار", "تيمياوين"] },
+            { code: "51", name: "51 - أولاد جلال", communes: ["أولاد جلال", "الدوسن", "سيدي خالد", "البسباس", "الشعيبة"] },
+            { code: "52", name: "52 - بني عباس", communes: ["بني عباس", "كـرزاز", "الواتة", "القصابي", "تبلبالة", "إقلي"] },
+            { code: "53", name: "53 - إن صالح", communes: ["إن صالح", "إن غار"] },
+            { code: "54", name: "54 - إن قزام", communes: ["إن قزام", "تين زواتين"] },
+            { code: "55", name: "55 - تقرت", communes: ["تقرت", "تماسين", "الماي", "المدين", "النزلة", "الطيبات"] },
+            { code: "56", name: "56 - جانت", communes: ["جانت"] },
+            { code: "57", name: "57 - المغير", communes: ["المغير", "جامعة", "أم الطيور", "سيدي عمران"] },
+            { code: "58", name: "58 - المنيعة", communes: ["المنيعة", "حاسي الفحل", "حاسي القارة"] }
+        ];
+
+        window.addEventListener('DOMContentLoaded', () => {
+            // تحميل الولايات في القائمة المنسدلة
+            const wilayaSelect = document.getElementById('custWilaya');
+            algeriaProvinces.forEach(province => {
+                const option = document.createElement('option');
+                option.value = province.code;
+                option.innerText = province.name;
+                wilayaSelect.appendChild(option);
+            });
+
+            // جلب السلع حية ومباشرة من جدول قاعدة البيانات الـ Supabase
+            fetchLiveProducts();
+        });
+
+        // دالة جلب المنتجات ديناميكياً
+        async function fetchLiveProducts() {
+            const grid = document.getElementById('productsGrid');
+            const client = getSupabase();
+            if(!client) return;
+
+            try {
+                let { data: products, error } = await client
+                    .from('products')
+                    .select('*')
+                    .order('id', { ascending: false });
+
+                if (error) throw error;
+
+                if (!products || products.length === 0) {
+                    grid.innerHTML = `<div class="col-span-full text-center py-6 text-gray-400 font-bold">المعرض فارغ حالياً.</div>`;
+                    return;
+                }
+
+                grid.innerHTML = '';
+                products.forEach(p => {
+                    const colorsStr = JSON.stringify(p.colors);
+                    const imgTag = p.image_url 
+                        ? `<img src="${p.image_url}" class="w-full h-56 object-cover" alt="${p.name}">`
+                        : `<div class="w-full h-56 bg-amber-50/50 flex flex-col items-center justify-center text-amber-600 border-b"><i class="fa-solid fa-image text-4xl mb-1"></i><span class="text-xs">شاهد الألوان في الاستمارة</span></div>`;
+
+                    const card = document.createElement('div');
+                    card.className = "bg-white rounded-2xl overflow-hidden shadow-md border border-gray-200 flex flex-col transform hover:-translate-y-1 smooth-transition";
+                    card.innerHTML = `
+                        ${imgTag}
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">${p.name}</h3>
+                            <p class="text-gray-600 text-sm mb-4">${p.description}</p>
+                            <button onclick='openOrderModal(${JSON.stringify(p.name)}, ${JSON.stringify(p.description)}, ${colorsStr}, ${p.is_standard_only})' class="w-full mt-auto bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 px-4 rounded-xl flex items-center justify-center gap-2 shadow-md smooth-transition">
+                                <i class="fa-solid fa-bag-shopping"></i> اطلب الآن بالجملة
+                            </button>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+
+            } catch (err) {
+                grid.innerHTML = `<div class="col-span-full text-center py-6 text-red-500 font-bold">⚠️ خطأ أثناء جلب السلع من السيرفر.</div>`;
+            }
+        }
+
+        function updateCommunes() {
+            const wilayaSelect = document.getElementById('custWilaya');
+            const baladiyaSelect = document.getElementById('custBaladiya');
+            const selectedCode = wilayaSelect.value;
+
+            baladiyaSelect.innerHTML = '<option value="">اختر البلدية...</option>';
+
+            if (selectedCode) {
+                const matchedProvince = algeriaProvinces.find(p => p.code === selectedCode);
+                if (matchedProvince && matchedProvince.communes) {
+                    baladiyaSelect.disabled = false;
+                    matchedProvince.communes.forEach(commune => {
+                        const option = document.createElement('option');
+                        option.value = commune;
+                        option.innerText = commune;
+                        baladiyaSelect.appendChild(option);
+                    });
+                    return;
+                }
+            }
+            baladiyaSelect.disabled = true;
+        }
+
+        function openOrderModal(name, desc, colors, isStandardOnly) {
+            document.getElementById('modalProductName').innerText = name;
+            document.getElementById('modalProductDesc').innerText = desc;
+            
+            const colorsContainer = document.getElementById('modalColors');
+            colorsContainer.innerHTML = '';
+            colors.forEach(color => {
+                const span = document.createElement('span');
+                span.className = "bg-amber-50 text-amber-900 text-xs font-bold px-2.5 py-1 rounded-md border border-amber-200/60";
+                span.innerText = color;
+                colorsContainer.appendChild(span);
+            });
+
+            const sizeSelect = document.getElementById('prodSize');
+            sizeSelect.innerHTML = '';
+            if(isStandardOnly) {
+                sizeSelect.innerHTML = `<option value="ستاندار فقط">ستاندار (Standard)</option>`;
+            } else {
+                sizeSelect.innerHTML = `
+                    <option value="ستاندار (Standard)">ستاندار (Standard)</option>
+                    <option value="مقاس كبير (Grand format)">مقاس كبير (Grand format)</option>
+                `;
+            }
+
+            document.getElementById('prodQuantity').value = 1;
+
+            const modal = document.getElementById('orderModal');
+            const content = document.getElementById('modalContent');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                content.classList.remove('scale-95', 'opacity-0');
+                content.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        function closeOrderModal() {
+            const modal = document.getElementById('orderModal');
+            const content = document.getElementById('modalContent');
+            content.classList.remove('scale-100', 'opacity-100');
+            content.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        function getOrderData() {
+            const wilayaSelect = document.getElementById('custWilaya');
+            const selectedCode = wilayaSelect.value;
+            
+            const matchedProvince = algeriaProvinces.find(p => p.code === selectedCode);
+            const wilayaName = matchedProvince ? matchedProvince.name : "";
+
+            return {
+                product: document.getElementById('modalProductName').innerText,
+                size: document.getElementById('prodSize').value,
+                quantitySeries: parseInt(document.getElementById('prodQuantity').value),
+                firstName: document.getElementById('custFirstName').value,
+                lastName: document.getElementById('custLastName').value,
+                phone: document.getElementById('custPhone').value,
+                wilaya: wilayaName, 
+                baladiya: document.getElementById('custBaladiya').value
+            };
+        }
+
+        // دالة حفظ الطلب في الـ orders وفتح الواتساب بالتزامن
+        async function handleSubmit(event) {
+            event.preventDefault();
+            const client = getSupabase();
+            if(!client) return;
+
+            const btn = document.getElementById('submitOrderBtn');
+            btn.disabled = true;
+            btn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> جاري تسجيل طلبيتك في النظام...`;
+
+            const d = getOrderData();
+
+            try {
+                // إدخال الطلب مباشرة في جدول الـ orders بقاعدة البيانات
+                await client
+                    .from('orders')
+                    .insert([
+                        {
+                            customer_first_name: d.firstName,
+                            customer_last_name: d.lastName,
+                            customer_phone: d.phone,
+                            wilaya: d.wilaya,
+                            baladiya: d.baladiya,
+                            product_name: d.product,
+                            size: d.size,
+                            quantity_series: d.quantitySeries,
+                            status: "قيد الانتظار"
+                        }
+                    ]);
+
+                // تجهيز رسالة الواتساب للزبون
+                const message = `*طلب شراء جديد بالجملة (موقع زاكي للخمارات)*\n\n` +
+                                `📦 *المنتج:* ${d.product}\n` +
+                                `📏 *القياس:* ${d.size}\n` +
+                                `🔢 *الكمية المطلوبة:* ${d.quantitySeries} سيرية\n\n` +
+                                `👤 *معلومات الزبون:*\n` +
+                                `• *الاسم الكامل:* ${d.firstName} ${d.lastName}\n` +
+                                `• *رقم الهاتف:* ${d.phone}\n` +
+                                `• *مقر التوصيل:* ولاية ${d.wilaya} - بلدية ${d.baladiya}\n` +
+                                `• *نوع التوصيل:* إلى مكتب شركة التوصيل\n\n` +
+                                `💵 *الدفع:* عند الاستلام\n` +
+                                `📝 _الرجاء مراجعة الطلب وتأكيده هاتفياً._`;
+
+                let formattedPhone = storePhone;
+                if(formattedPhone.startsWith('0')) formattedPhone = '213' + formattedPhone.substring(1);
+                
+                const whatsappUrl = `https://wa.me/${formattedPhone}?text=${encodeURIComponent(message)}`;
+                
+                closeOrderModal();
+                document.getElementById('orderForm').reset();
+                
+                window.open(whatsappUrl, '_blank');
+
+            } catch (err) {
+                console.error(err);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = `<i class="fa-solid fa-circle-check"></i> تأكيد الطلب وإرساله عبر الواتساب`;
+            }
+        }
+    </script>
+</body>
+</html>

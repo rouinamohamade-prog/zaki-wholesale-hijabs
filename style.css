@@ -1,0 +1,55 @@
+/* أنيميشن الخلفية المتحركة للواجهة */
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.bg-animation {
+    background: linear-gradient(-45deg, #f8fafc, #f1f5f9, #e2e8f0, #ffffff);
+    background-size: 400% 400%;
+    animation: gradientBG 12s ease infinite;
+}
+
+/* تدرج ذهبي ملكي ناعم للهيدر والفوتر */
+.gold-gradient {
+    background: linear-gradient(135deg, #bf953f 0%, #fcf6ba 25%, #b38728 50%, #fbf5b7 75%, #aa771c 100%);
+    background-size: 200% auto;
+}
+
+/* تأثيرات الانتقال والتنعيم العام */
+.smooth-transition {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* أنيميشن دوران اللوغو المستمر */
+@keyframes logoRotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.rotating-logo {
+    animation: logoRotate 8s linear infinite;
+}
+
+/* إيقاف حركة اللوغو عند وضع المؤشر عليه */
+.rotating-logo:hover {
+    animation-play-state: paused;
+}
+
+/* تخصيص تصفح متناسق للأجهزة الذكية ومقاسات الشاشات */
+input, select {
+    font-size: 16px !important;
+}
+
+/* تخصيص شريط التمرير */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+    background: #b38728;
+    border-radius: 4px;
+}
