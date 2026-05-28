@@ -134,6 +134,22 @@
     </main>
 
     <script>
+
+// 1. جدار الحماية (يتم تنفيذه أول شيء لحظر المتطفلين فوراً)
+     (function() {
+        const password = prompt("الرجاء إدخال كلمة المرور للوصول للوحة التحكم:");
+        if (password !== "ZakiHijab2026") { // قم بتغيير ZakiHijab2026 إلى كلمة السر التي تريدها
+            alert("كلمة مرور خاطئة!");
+            document.body.innerHTML = "<h1 style='text-align:center; margin-top:50px; color:red; font-family:sans-serif;'>غير مصرح لك بالدخول!</h1>";
+            window.location.href = "index.html"; 
+    }
+})();
+
+// 2. بقية أكوادك القديمة المعتادة تبدأ من هنا (مثل إعدادات Supabase والـ API Keys)
+const SUPABASE_URL = "https://your-project.supabase.co";
+const SUPABASE_KEY = "your-anon-key";
+// ... بقية الأكواد الخاصة بك ...
+
         (function() {
             const SUPABASE_URL = "https://tiqsagpbbwmvyktpcnlv.supabase.co"; 
             const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRpcXNhZ3BiYndtdnlrdHBjbmx2Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3OTg4MjMwNSwiZXhwIjoyMDk1NDU4MzA1fQ.WFF94IhIwnjyiadbRFrf_-Tl97fRkIiEoLF_-o1BSZo";
