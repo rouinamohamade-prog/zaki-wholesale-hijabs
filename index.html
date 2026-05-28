@@ -20,6 +20,11 @@
             }
         }
     </script>
+    <style>
+        /* إخفاء شريط التمرير الافتراضي في سلايدر الصور لتبدو انسيابية ومتطورة */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
 </head>
 <body class="bg-animation text-gray-800 font-sans min-h-screen flex flex-col antialiased">
 
@@ -124,7 +129,7 @@
                             <input type="text" id="custFirstName" class="w-full border border-gray-300 rounded-xl px-3 py-2 focus:ring-2 focus:ring-amber-500 outline-none text-sm" required>
                         </div>
                         <div>
-                            <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">الالقب</label>
+                            <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">اللقب</label>
                             <input type="text" id="custLastName" class="w-full border border-gray-300 rounded-xl px-3 py-2 focus:ring-2 focus:ring-amber-500 outline-none text-sm" required>
                         </div>
                     </div>
@@ -148,7 +153,7 @@
                             </select>
                         </div>
                         <div>
-                            <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">الالبلدية</label>
+                            <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-1">البلدية</label>
                             <select id="custBaladiya" disabled class="w-full border border-gray-300 rounded-xl px-3 py-2.5 bg-gray-50 font-medium focus:ring-2 focus:ring-amber-500 outline-none text-sm" required>
                                 <option value="">اختر البلدية...</option>
                             </select>
@@ -192,7 +197,6 @@
     </footer>
 
     <script>
-        // مفاتيح الاتصال بـ Supabase 
         const SUPABASE_URL = "https://tiqsagpbbwmvyktpcnlv.supabase.co"; 
         const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRpcXNhZ3BiYndtdnlrdHBjbmx2Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3OTg4MjMwNSwiZXhwIjoyMDk1NDU4MzA1fQ.WFF94IhIwnjyiadbRFrf_-Tl97fRkIiEoLF_-o1BSZo";
         
@@ -206,7 +210,6 @@
             return supabaseClient;
         }
 
-        // قائمة الـ 58 ولاية كاملة في شكل مصفوفة (Array) لتتوافق مع دوال الكود .forEach و .find
         const algeriaProvinces = [
             { code: "01", name: "01 - أدرار", communes: ["أدرار", "تامست", "شروين", "رقان", "إن زغمير", "تيت", "أولف", "تيمقطن", "بودا", "فنوغيل", "تمنطيط", "أولاد أحمد تيمي"] },
             { code: "02", name: "02 - الشلف", communes: ["الشلف", "تنس", "بوقادير", "أولاد فارس", "الشطية", "سيدي عكاشة", "تاوقريت", "بني حواء", "سنجاس", "المرسى", "سيدي عبد الرحمن", "مصدق", "أولاد بن عبد القادر", "عين مران", "بنايرية", "الأبيض مجاجة", "وادي الفضة", "أولاد عباس"] },
@@ -216,7 +219,7 @@
             { code: "06", name: "06 - بجاية", communes: ["بجاية", "أقبو", "أوقاس", "خراطة", "أميزور", "تيمزريت", "صدوق", "تشميني", "القصر", "تيشي", "سوق الاثنين", "درقينة", "توجة", "وادي غير"] },
             { code: "07", name: "07 - بسكرة", communes: ["بسكرة", "طولقة", "سيدي عقبة", "زريبة الوادي", "مشونش", "لوطاية", "جمورة", "الفيض", "الحوش", "شعين"] },
             { code: "08", name: "08 - بشار", communes: ["بشار", "القنادسة", "تاغيت", "العبادلة", "لحمر", "موغل", "مريجة", "بني ونيف", "تبلبالة", "عرق فراج"] },
-            { code: "09", name: "09 - البليدة", communes: ["البليدة", "بوفاريك", "العفرون", "أولاد يعيش", "الصومعة", "موزاية", "بوقرة", "الأربعاء", "شبانية", "حمام ملوان", "بني مراد", "قرواو"] },
+            { code: "09", name: "09 - البليدة", communes: ["البليدة", "بوفاريك", "العفرون", "أولاد يعيش", "الصومعة", "موزاية", "bqp", "الأربعاء", "شبانية", "حمام ملوان", "بني مراد", "قرواو"] },
             { code: "10", name: "10 - البويرة", communes: ["البويرة", "الأخضرية", "سور الغزلان", "عين بسام", "مشدالة", "قاديرية", "بشلول", "حيزر", "برج أوخريص", "هاشمية"] },
             { code: "11", name: "11 - تمنراست", communes: ["تمنراست", "أبالسة", "إن غار", "فقارة الزوى"] },
             { code: "12", name: "12 - تبسة", communes: ["تبسة", "بئر العاتر", "الشريعة", "الونزة", "العوينات", "مرسط", "الماء الأبيض", "العقلة", "الكويف", "بكارية", "نقرين"] },
@@ -259,7 +262,7 @@
             { code: "49", name: "49 - تيميمون", communes: ["تيميمون", "أوقروت", "شروين", "طلمين", "قصر قدور"] },
             { code: "50", name: "50 - برج باجي مختار", communes: ["برج باجي مختار", "تيمياوين"] },
             { code: "51", name: "51 - أولاد جلال", communes: ["أولاد جلال", "الدوسن", "سيدي خالد", "البسباس", "الشعيبة"] },
-            { code: "52", name: "52 - بني عباس", communes: ["بني عباس", "كـرزاز", "الواتة", "القصابي", "تبلبالة", "إقلي"] },
+            { code: "52", name: "52 - بني عباس", communes: ["bny", "كـرزاز", "الواتة", "القصابي", "تبلبالة", "إقلي"] },
             { code: "53", name: "53 - إن صالح", communes: ["إن صالح", "إن غار"] },
             { code: "54", name: "54 - إن قزام", communes: ["إن قزام", "تين زواتين"] },
             { code: "55", name: "55 - تقرت", communes: ["تقرت", "تماسين", "الماي", "المدين", "النزلة", "الطيبات"] },
@@ -269,7 +272,6 @@
         ];
 
         window.addEventListener('DOMContentLoaded', () => {
-            // تحميل الولايات في القائمة المنسدلة
             const wilayaSelect = document.getElementById('custWilaya');
             algeriaProvinces.forEach(province => {
                 const option = document.createElement('option');
@@ -278,11 +280,9 @@
                 wilayaSelect.appendChild(option);
             });
 
-            // جلب السلع حية ومباشرة من جدول قاعدة البيانات الـ Supabase
             fetchLiveProducts();
         });
 
-        // دالة جلب المنتجات ديناميكياً
         async function fetchLiveProducts() {
             const grid = document.getElementById('productsGrid');
             const client = getSupabase();
@@ -302,16 +302,58 @@
                 }
 
                 grid.innerHTML = '';
-                products.forEach(p => {
+                products.forEach((p, pIndex) => {
                     const colorsStr = JSON.stringify(p.colors);
-                    const imgTag = p.image_url 
-                        ? `<img src="${p.image_url}" class="w-full h-56 object-cover" alt="${p.name}">`
-                        : `<div class="w-full h-56 bg-amber-50/50 flex flex-col items-center justify-center text-amber-600 border-b"><i class="fa-solid fa-image text-4xl mb-1"></i><span class="text-xs">شاهد الألوان في الاستمارة</span></div>`;
+                    
+                    let imgsArr = [];
+                    if (p.images_urls && p.images_urls.length > 0) {
+                        imgsArr = p.images_urls;
+                    } else if (p.image_url) {
+                        imgsArr = [p.image_url];
+                    }
+
+                    let sliderHTML = "";
+
+                    if (imgsArr.length > 0) {
+                        let slides = "";
+                        let dots = "";
+                        
+                        imgsArr.forEach((imgUrl, i) => {
+                            slides += `
+                                <div class="min-w-full h-56 flex-shrink-0 relative">
+                                    <img src="${imgUrl}" class="w-full h-56 object-cover select-none" alt="${p.name} - صورة ${i+1}" draggable="false">
+                                </div>`;
+                            dots += `
+                                <span id="dot-${pIndex}-${i}" class="w-2 h-2 rounded-full transition-all duration-300 ${i === 0 ? 'bg-amber-500 scale-125' : 'bg-gray-300'}"></span>`;
+                        });
+
+                        // إضافة السهمين هنا مع إخفائهم في الموبايل عبر `hidden md:flex` وتعديل التوجيه البرمجي بناءً على الـ RTL
+                        sliderHTML = `
+                            <div class="relative w-full h-56 overflow-hidden bg-gray-100 group">
+                                <button onclick="scrollSlider(${pIndex}, -1)" class="absolute left-2 top-1/2 -translate-y-1/2 z-20 bg-black/40 hover:bg-black/70 text-white w-8 h-8 rounded-full hidden md:flex items-center justify-center transition shadow">
+                                    <i class="fa-solid fa-chevron-left text-xs"></i>
+                                </button>
+                                
+                                <div id="slider-${pIndex}" onscroll="handleSliderScroll(${pIndex}, ${imgsArr.length})" class="w-full h-full flex overflow-x-auto snap-x snap-mandatory scroll-smooth hide-scrollbar">
+                                    ${slides}
+                                </div>
+                                
+                                <button onclick="scrollSlider(${pIndex}, 1)" class="absolute right-2 top-1/2 -translate-y-1/2 z-20 bg-black/40 hover:bg-black/70 text-white w-8 h-8 rounded-full hidden md:flex items-center justify-center transition shadow">
+                                    <i class="fa-solid fa-chevron-right text-xs"></i>
+                                </button>
+                                
+                                <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 bg-black/30 backdrop-blur-xs px-2.5 py-1 rounded-full z-10">
+                                    ${dots}
+                                </div>
+                            </div>`;
+                    } else {
+                        sliderHTML = `<div class="w-full h-56 bg-amber-50/50 flex flex-col items-center justify-center text-amber-600 border-b"><i class="fa-solid fa-image text-4xl mb-1"></i><span class="text-xs">شاهد الألوان في الاستمارة</span></div>`;
+                    }
 
                     const card = document.createElement('div');
                     card.className = "bg-white rounded-2xl overflow-hidden shadow-md border border-gray-200 flex flex-col transform hover:-translate-y-1 smooth-transition";
                     card.innerHTML = `
-                        ${imgTag}
+                        ${sliderHTML}
                         <div class="p-6 flex flex-col flex-grow">
                             <h3 class="text-xl font-bold text-gray-900 mb-2">${p.name}</h3>
                             <p class="text-gray-600 text-sm mb-4">${p.description}</p>
@@ -327,6 +369,40 @@
                 grid.innerHTML = `<div class="col-span-full text-center py-6 text-red-500 font-bold">⚠️ خطأ أثناء جلب السلع من السيرفر.</div>`;
             }
         }
+
+        // دالة جديدة للتحكم في حركة الأسهم عند الضغط عليها، تراعي مقاس عرض الحاوية الحالي
+        window.scrollSlider = function(pIndex, direction) {
+            const slider = document.getElementById(`slider-${pIndex}`);
+            if (!slider) return;
+            const slideWidth = slider.clientWidth;
+            // بما أن الاتجاه RTL، فإن ضرب الاتجاه في السلب يضبط التمرير البرمجي بشكل صحيح لليمين واليسار
+            slider.scrollBy({ left: direction * slideWidth, behavior: 'smooth' });
+        };
+
+        // دالة تتبع حركة التمرير المعدلة لتتوافق مع خاصية RTL بسلاسة تامة في الحسابات الرياضية للمتصفح
+        window.handleSliderScroll = function(pIndex, totalSlides) {
+            const slider = document.getElementById(`slider-${pIndex}`);
+            if (!slider) return;
+
+            const scrollLeft = Math.abs(slider.scrollLeft);
+            const slideWidth = slider.clientWidth;
+            
+            let activeIndex = Math.round(scrollLeft / slideWidth);
+            if(activeIndex >= totalSlides) activeIndex = totalSlides - 1;
+
+            for (let i = 0; i < totalSlides; i++) {
+                const dot = document.getElementById(`dot-${pIndex}-${i}`);
+                if (dot) {
+                    if (i === activeIndex) {
+                        dot.classList.remove('bg-gray-300', 'scale-100');
+                        dot.classList.add('bg-amber-500', 'scale-125');
+                    } else {
+                        dot.classList.remove('bg-amber-500', 'scale-125');
+                        dot.classList.add('bg-gray-300', 'scale-100');
+                    }
+                }
+            }
+        };
 
         function updateCommunes() {
             const wilayaSelect = document.getElementById('custWilaya');
@@ -396,66 +472,60 @@
             }, 300);
         }
 
-        function getOrderData() {
-            const wilayaSelect = document.getElementById('custWilaya');
-            const selectedCode = wilayaSelect.value;
-            
-            const matchedProvince = algeriaProvinces.find(p => p.code === selectedCode);
-            const wilayaName = matchedProvince ? matchedProvince.name : "";
-
-            return {
-                product: document.getElementById('modalProductName').innerText,
-                size: document.getElementById('prodSize').value,
-                quantitySeries: parseInt(document.getElementById('prodQuantity').value),
-                firstName: document.getElementById('custFirstName').value,
-                lastName: document.getElementById('custLastName').value,
-                phone: document.getElementById('custPhone').value,
-                wilaya: wilayaName, 
-                baladiya: document.getElementById('custBaladiya').value
-            };
-        }
-
-        // دالة حفظ الطلب في الـ orders وفتح الواتساب بالتزامن
         async function handleSubmit(event) {
             event.preventDefault();
-            const client = getSupabase();
-            if(!client) return;
-
             const btn = document.getElementById('submitOrderBtn');
             btn.disabled = true;
-            btn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> جاري تسجيل طلبيتك في النظام...`;
+            btn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> جاري تسجيل طلبك...`;
 
-            const d = getOrderData();
+            const client = getSupabase();
+            if (!client) {
+                btn.disabled = false;
+                btn.innerHTML = `<i class="fa-solid fa-circle-check"></i> تأكيد الطلب وإرساله عبر الواتساب`;
+                return;
+            }
 
             try {
-                // إدخال الطلب مباشرة في جدول الـ orders بقاعدة البيانات
-                await client
-                    .from('orders')
-                    .insert([
-                        {
-                            customer_first_name: d.firstName,
-                            customer_last_name: d.lastName,
-                            customer_phone: d.phone,
-                            wilaya: d.wilaya,
-                            baladiya: d.baladiya,
-                            product_name: d.product,
-                            size: d.size,
-                            quantity_series: d.quantitySeries,
-                            status: "قيد الانتظار"
-                        }
-                    ]);
+                const productName = document.getElementById('modalProductName').innerText;
+                const size = document.getElementById('prodSize').value;
+                const quantity = parseInt(document.getElementById('prodQuantity').value);
+                const firstName = document.getElementById('custFirstName').value;
+                const lastName = document.getElementById('custLastName').value;
+                const phone = document.getElementById('custPhone').value;
+                const wilayaCode = document.getElementById('custWilaya').value;
+                const baladiya = document.getElementById('custBaladiya').value;
 
-                // تجهيز رسالة الواتساب للزبون
-                const message = `*طلب شراء جديد بالجملة (موقع زاكي للخمارات)*\n\n` +
-                                `📦 *المنتج:* ${d.product}\n` +
-                                `📏 *القياس:* ${d.size}\n` +
-                                `🔢 *الكمية المطلوبة:* ${d.quantitySeries} سيرية\n\n` +
-                                `👤 *معلومات الزبون:*\n` +
-                                `• *الاسم الكامل:* ${d.firstName} ${d.lastName}\n` +
-                                `• *رقم الهاتف:* ${d.phone}\n` +
-                                `• *مقر التوصيل:* ولاية ${d.wilaya} - بلدية ${d.baladiya}\n` +
-                                `• *نوع التوصيل:* إلى مكتب شركة التوصيل\n\n` +
-                                `💵 *الدفع:* عند الاستلام\n` +
+                const matchedProvince = algeriaProvinces.find(p => p.code === wilayaCode);
+                const wilayaName = matchedProvince ? matchedProvince.name : "";
+
+                // 1. حفظ الطلبية في قاعدة بيانات Supabase أولاً بشكل آمن
+                const { error } = await client
+                    .from('orders')
+                    .insert([{
+                        customer_first_name: firstName,
+                        customer_last_name: lastName,
+                        customer_phone: phone,
+                        wilaya: wilayaName,
+                        commune: baladiya,
+                        product_name: productName,
+                        size: size,
+                        quantity_series: quantity,
+                        status: "قيد الانتظار"
+                    }]);
+
+                if (error) throw error;
+
+                // 2. بناء رسالة احترافية جداً لإرسالها للواتساب الخاص بالمحل لتأكيد المعاملة فوراً
+                const message = `🛍️ *طلب زبون جديد من موقع الجملة (خمارات زاكي)*\\n\\n` +
+                                `📦 *المنتج:* ${productName}\\n` +
+                                `📏 *القياس:* ${size}\\n` +
+                                `🔢 *الكمية المطلوبة:* ${quantity} سيرية\\n\\n` +
+                                `👤 *معلومات الزبون:*\\n` +
+                                `• *الاسم الكامل:* ${firstName} ${lastName}\\n` +
+                                `• *رقم الهاتف:* ${phone}\\n` +
+                                `• *مقر التوصيل:* ولاية ${wilayaName} - بلدية ${baladiya}\\n` +
+                                `• *نوع التوصيل:* إلى مكتب شركة التوصيل\\n\\n` +
+                                `💵 *الدفع:* عند الاستلام\\n` +
                                 `📝 _الرجاء مراجعة الطلب وتأكيده هاتفياً._`;
 
                 let formattedPhone = storePhone;
@@ -470,6 +540,7 @@
 
             } catch (err) {
                 console.error(err);
+                alert("حدث خطأ أثناء إرسال الطلب، يرجى المحاولة مجدداً.");
             } finally {
                 btn.disabled = false;
                 btn.innerHTML = `<i class="fa-solid fa-circle-check"></i> تأكيد الطلب وإرساله عبر الواتساب`;
